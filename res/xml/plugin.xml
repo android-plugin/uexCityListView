@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<uexplugins>
+
+    <plugin
+        className="org.zywx.wbpalmstar.plugin.citylistview.EUExCityListView"
+        uexName="uexCityListView" >
+        <method name="open" />
+        <method name="setLocalCity" />
+        <method name="setHotCity" />
+        <method name="setAllCity" />
+        <method name="setViewStyle" />
+        <method name="close" />
+    </plugin>
+
+</uexplugins>

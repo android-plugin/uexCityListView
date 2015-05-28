@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/top_search_linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:background="#F6F6F4"
+    android:gravity="center_vertical"
+    android:paddingBottom="6dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="6dp" >
+
+    <LinearLayout
+        android:id = "@+id/searchLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/plugin_uexcitylistview_round_rect_white_shape"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/top_search_editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/plugin_uexcitylistview_search_box_icon_normal"
+            android:drawablePadding="6dp"
+            android:hint="请输入城市中文名或拼音"
+            android:singleLine="true"
+            android:textColor="@color/plugin_uexCityListView_black_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

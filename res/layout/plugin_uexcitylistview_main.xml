@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/plugin_uexCityListView_main_bg_color"
+    android:orientation="vertical" >
+
+    <include layout="@layout/plugin_uexcitylistview_header_search_layout" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <org.zywx.wbpalmstar.plugin.citylistview.view.PinnedHeaderListView
+            android:id="@+id/country_lvcountry"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarThumbVertical="@drawable/plugin_uexcitylistview_scrollbar_rec_shape" />
+
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="60.0dip"
+            android:layout_height="60.0dip"
+            android:layout_gravity="center"
+            android:background="@color/plugin_uexCityListView_search_bg_color"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30.0dip"
+            android:visibility="gone" />
+
+        <org.zywx.wbpalmstar.plugin.citylistview.view.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="30.0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center" />
+
+        <TextView
+            android:id="@+id/tv_visa_people_select_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@drawable/plugin_uexcitylistview_rect_white_no_stroke_shape"
+            android:gravity="center"
+            android:minHeight="52dp"
+            android:text="抱歉，暂时没有找到相关城市"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

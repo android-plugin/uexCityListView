@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_header">
+
+     <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/plugin_uexcitylistview_listitem_countryheader_bg"
+        android:paddingLeft="12dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/plugin_uexCityListView_black_color" />
+
+</LinearLayout>

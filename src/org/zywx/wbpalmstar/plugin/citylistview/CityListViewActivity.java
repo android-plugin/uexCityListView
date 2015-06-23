@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
 import org.zywx.wbpalmstar.plugin.citylistview.view.PinnedHeaderListView;
@@ -463,9 +465,14 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 
 	private void saveCityAndCallback(String city) {
 		saveLastCity(city);
+		JSONObject result=new JSONObject();
+		try {
+			result.put("city",city);
+		} catch (JSONException e) {
+		}
 		if (mUexBaseObj != null) {
 			String js = EUExBase.SCRIPT_HEADER + "if(" + EUExCityListView.CITYLISTVIEW_ON_ITEM_CLICK + "){"
-					+ EUExCityListView.CITYLISTVIEW_ON_ITEM_CLICK + "('" + city + "');}";
+					+ EUExCityListView.CITYLISTVIEW_ON_ITEM_CLICK + "('" + result.toString() + "');}";
 			mUexBaseObj.onCallback(js);
 		}
 	}

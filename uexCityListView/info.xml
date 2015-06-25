@@ -2,6 +2,6 @@
 <uexplugins>
     <plugin
         uexName="uexCityListView" version="3.0.0" build="0">
-        <build>0:CityListView插件基础版</build>
+        <info>0:CityListView插件基础版</info>
     </plugin>
 </uexplugins>

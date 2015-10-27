@@ -18,19 +18,19 @@ import org.zywx.wbpalmstar.plugin.citylistview.view.SortAdapter.SortOnClickListe
 import org.zywx.wbpalmstar.plugin.citylistview.view.SortModel;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CityListViewActivity extends Activity implements TextWatcher {
+public class CityListViewView extends FrameLayout implements TextWatcher {
 	private EUExCityListView mUexBaseObj;
 	private final static String lastCitysKey = "lastCitys";
 	private final static String firstCityKey = "firstCity";
@@ -59,35 +59,20 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 	private String indexBarColor;
 	private ListViewBean listViewBean;
 	private SharedPreferences sharePrefrence;
+    private Context mContext;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Intent intent = getIntent();
-		if (intent.hasExtra(EUExCityListView.CITYLISTVIEW_EXTRA_UEXBASE_OBJ)) {
-			mUexBaseObj = (EUExCityListView) intent
-					.getParcelableExtra(EUExCityListView.CITYLISTVIEW_EXTRA_UEXBASE_OBJ);
-		}
-		sharePrefrence = getSharedPreferences(lastCitysKey,
-				Activity.MODE_PRIVATE);
+    public CityListViewView(Context context, EUExCityListView uexBase) {
+        super(context);
+        this.mContext = context;
+        this.mUexBaseObj = uexBase;
+        initView();
+    }
+
+	private void initView() {
+		sharePrefrence = mContext.getSharedPreferences(lastCitysKey,
+                Activity.MODE_PRIVATE);
 		findView();
 		addLastCityView();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		realeaseDatas();
-		super.onDestroy();
 	}
 
 	private void realeaseDatas() {
@@ -98,7 +83,9 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 	}
 
 	private void findView() {
-		setContentView(EUExUtil.getResLayoutID("plugin_uexcitylistview_main"));
+        LayoutInflater.from(mContext).inflate(
+                EUExUtil.getResLayoutID("plugin_uexcitylistview_main"),
+                this, true);
 		searchLinearLayout = (LinearLayout) findViewById(EUExUtil
 				.getResIdID("searchLinearLayout"));
 		mSearchEditText = (EditText) findViewById(EUExUtil
@@ -108,7 +95,7 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 		sortListView = (PinnedHeaderListView) findViewById(EUExUtil
 				.getResIdID("country_lvcountry"));
 		// 定位城市等列表头
-		cityheaderView = getLayoutInflater().inflate(
+		cityheaderView = LayoutInflater.from(mContext).inflate(
 				EUExUtil.getResLayoutID("plugin_uexcitylistview_header"),
 				sortListView, false);
 		locationCityTextView = (TextView) cityheaderView.findViewById(EUExUtil
@@ -168,7 +155,7 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 				sortModellast.setHiddenLine(true);
 			}
 		}
-		sortAdapter = new SortAdapter(this, sourceDateList, sortListView);
+		sortAdapter = new SortAdapter(mContext, sourceDateList, sortListView);
 		sortAdapter.setHiddenImgTitle(false);
 		sortAdapter.setListViewBean(listViewBean);
 		sortAdapter.setSoftOnClickListener(new SortOnClickListener() {
@@ -183,7 +170,7 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 		sortListView.setAdapter(sortAdapter);
 		sortListView.setOnScrollListener(sortAdapter);
 		// 拼音显示头
-		View headerView = getLayoutInflater()
+		View headerView = LayoutInflater.from(mContext)
 				.inflate(
 						EUExUtil.getResLayoutID("plugin_uexcitylistview_listitem_header"),
 						sortListView, false);
@@ -373,7 +360,7 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 	 * @param resPath
 	 */
 	public void setAllCitys(String resPath) {
-		String cityString = CityDataInfo.readCityJSON(this, resPath);
+		String cityString = CityDataInfo.readCityJSON(mContext, resPath);
 		sourceDateList = CityDataInfo.getCityList(cityString, CityDataInfo.allCity);
 		initCityListView();
 	}
@@ -411,7 +398,7 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 			return;
 		}
 		lastvisitcitysLinearLayout.removeAllViews();
-		View lastvisitCityView = getLayoutInflater()
+		View lastvisitCityView = LayoutInflater.from(mContext)
 				.inflate(
 						EUExUtil.getResLayoutID("plugin_uexcitylistview_listitem_additem"),
 						lastvisitcitysLinearLayout, false);
@@ -487,8 +474,8 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 			return;
 		}
 		if (sharePrefrence == null) {
-			sharePrefrence = getSharedPreferences(lastCitysKey,
-					Activity.MODE_PRIVATE);
+			sharePrefrence = mContext.getSharedPreferences(lastCitysKey,
+                    Activity.MODE_PRIVATE);
 		}
 		final String firstCity = sharePrefrence.getString(firstCityKey, "");
 		final String secondCity = sharePrefrence.getString(secondCityKey, "");
@@ -529,7 +516,7 @@ public class CityListViewActivity extends Activity implements TextWatcher {
 		for (int i = 0, size = hotCitysList.size(); i < size; i++) {
 			final String[] hotCityArray = hotCitysList.get(i);
 			if (hotCityArray != null && hotCityArray.length == 3) {
-				View hotCityView = getLayoutInflater()
+				View hotCityView = LayoutInflater.from(mContext)
 						.inflate(
 								EUExUtil.getResLayoutID("plugin_uexcitylistview_listitem_additem"),
 								hotcitysLinearLayout, false);

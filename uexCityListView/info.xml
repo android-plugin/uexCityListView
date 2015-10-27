@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexCityListView" version="3.0.0" build="0">
-        <info>0:CityListView插件基础版</info>
+        uexName="uexCityListView" version="3.0.1" build="1">
+        <info>1:去掉插件中的ActivityGroup,配合引擎升级</info>
+        <build>0:CityListView插件基础版</build>
     </plugin>
 </uexplugins>

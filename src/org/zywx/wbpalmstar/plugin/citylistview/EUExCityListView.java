@@ -4,8 +4,6 @@ import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 
 import android.app.Activity;
-import android.app.ActivityGroup;
-import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +31,8 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 	public static final int CITYLISTVIEW_MSG_SET_HOT_CITY = 3;
 	public static final int CITYLISTVIEW_MSG_SET_ALL_CITY = 4;
 	public static final int CITYLISTVIEW_MSG_SET_VIEW_STYLE = 5;
+
+    private CityListViewView cityListView;
 
 	public EUExCityListView(Context context, EBrowserView inParent) {
 		super(context, inParent);
@@ -109,22 +109,13 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 		String[] params = msg.getData().getStringArray(
 				CITYLISTVIEW_FUN_PARAMS_KEY);
 		try {
-			LocalActivityManager mgr = ((ActivityGroup) mContext)
-					.getLocalActivityManager();
-			CityListViewActivity activity = (CityListViewActivity) mgr
-					.getActivity(CITYLISTVIEW_ACTIVITY_ID);
-			if (activity != null) {
-				return;
-			}
-			Intent intent = new Intent(mContext, CityListViewActivity.class);
-			intent.putExtra(CITYLISTVIEW_EXTRA_UEXBASE_OBJ, this);
-			Window window = mgr.startActivity(CITYLISTVIEW_ACTIVITY_ID, intent);
-			final View decorView = window.getDecorView();
+            if (cityListView != null) return;
+            cityListView = new CityListViewView(mContext, this);
 			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
 					Integer.parseInt(params[2]), Integer.parseInt(params[3]));
 			lp.leftMargin = Integer.parseInt(params[0]);
 			lp.topMargin = Integer.parseInt(params[1]);
-			addView2CurrentWindow(decorView, lp);
+			addView2CurrentWindow(cityListView, lp);
 			String js = SCRIPT_HEADER + "if(" + CITYLISTVIEW_CB_LOAD_DATA + "){"
 					+ CITYLISTVIEW_CB_LOAD_DATA + "();}";
 			onCallback(js);
@@ -147,42 +138,36 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 	}
 
 	private void handleMessage(Message msg) {
-		LocalActivityManager mgr = ((ActivityGroup) mContext)
-				.getLocalActivityManager();
-		Activity activity = mgr.getActivity(CITYLISTVIEW_ACTIVITY_ID);
-		if (activity != null && activity instanceof CityListViewActivity) {
+		if (cityListView != null) {
 			String[] params = msg.getData().getStringArray(
 					CITYLISTVIEW_FUN_PARAMS_KEY);
-			CityListViewActivity cActivity = ((CityListViewActivity) activity);
 			switch (msg.what) {
 			case CITYLISTVIEW_MSG_CLOSE:
-				handleClose(cActivity, mgr);
+				handleClose(cityListView);
 				break;
 			case CITYLISTVIEW_MSG_SET_LOCAL_CITY:
-				handleSetLocalCity(cActivity, params);
+				handleSetLocalCity(cityListView, params);
 				break;
 			case CITYLISTVIEW_MSG_SET_HOT_CITY:
-				handleSetHotCity(cActivity, params);
+				handleSetHotCity(cityListView, params);
 				break;
 			case CITYLISTVIEW_MSG_SET_ALL_CITY:
-				handleSetAllCity(cActivity, params);
+				handleSetAllCity(cityListView, params);
 				break;
 			case CITYLISTVIEW_MSG_SET_VIEW_STYLE:
-				handleSetViewStyle(cActivity, params);
+				handleSetViewStyle(cityListView, params);
 				break;
 			}
 		}
 	}
 
-	private void handleClose(CityListViewActivity activity,
-			LocalActivityManager mgr) {
+	private void handleClose(CityListViewView activity) {
 		Log.i(TAG, " handleClose");
-		View decorView = activity.getWindow().getDecorView();
-		mBrwView.removeViewFromCurrentWindow(decorView);
-		mgr.destroyActivity(CITYLISTVIEW_ACTIVITY_ID, true);
+		mBrwView.removeViewFromCurrentWindow(cityListView);
+        cityListView = null;
 	}
 
-	private void handleSetLocalCity(final CityListViewActivity activity,
+	private void handleSetLocalCity(final CityListViewView activity,
 			String[] params) {
 		if (params.length < 1) {
 			return;
@@ -192,7 +177,7 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 		activity.setLocalcity(localcity);
 	}
 
-	private void handleSetHotCity(final CityListViewActivity activity,
+	private void handleSetHotCity(final CityListViewView activity,
 			String[] params) {
 		if (params.length < 1) {
 			return;
@@ -202,7 +187,7 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 		activity.setHotCityList(hotCityStr);
 	}
 
-	private void handleSetAllCity(final CityListViewActivity activity,
+	private void handleSetAllCity(final CityListViewView activity,
 			String[] params) {
 		if (params.length < 1) {
 			return;
@@ -211,7 +196,7 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 		activity.setAllCitys(params[0]);
 	}
 
-	private void handleSetViewStyle(final CityListViewActivity activity,
+	private void handleSetViewStyle(final CityListViewView activity,
 			String[] params) {
 		if (params.length < 1) {
 			return;

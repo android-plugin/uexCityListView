@@ -3,20 +3,15 @@ package org.zywx.wbpalmstar.plugin.citylistview;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-public class EUExCityListView extends EUExBase implements Parcelable {
+public class EUExCityListView extends EUExBase{
 
 	private static String TAG = "EUExCityListView";
 	public static final String CITYLISTVIEW_FUN_PARAMS_KEY = "citylistviewFunParamsKey";
@@ -214,14 +209,5 @@ public class EUExCityListView extends EUExBase implements Parcelable {
 	protected boolean clean() {
 		close(null);
 		return false;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
 	}
 }

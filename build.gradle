@@ -5,12 +5,15 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
     lintOptions {
         abortOnError false
     }
-
+    compileSdkVersion 22
+    buildToolsVersion "23.0.0"
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

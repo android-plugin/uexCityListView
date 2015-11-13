@@ -1,7 +1,7 @@
 package org.zywx.wbpalmstar.plugin.citylistview.view;
 
+import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
 import org.zywx.wbpalmstar.plugin.citylistview.ImageColorUtils;
-import org.zywx.wbpalmstar.widgetone.uexcitylistview.R;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -65,7 +65,7 @@ public class SideBar extends View {
 			paint.setTypeface(Typeface.DEFAULT_BOLD);
 			paint.setAntiAlias(true);
 			paint.setTextSize(mContext.getResources().getDimensionPixelSize(
-					R.dimen.plugin_uexcitylistview_sidebar_size));
+                    EUExUtil.getResDimenID("plugin_uexcitylistview_sidebar_size")));
 			// 选中的状态
 			if (i == choose) {
 				paint.setColor(Color.parseColor("#3399ff"));
@@ -98,7 +98,8 @@ public class SideBar extends View {
 			break;
 
 		default:
-			 setBackgroundResource(R.drawable.plugin_uexcitylistview_sidebar_background);
+			 setBackgroundResource(EUExUtil.getResDrawableID(
+                     "plugin_uexcitylistview_sidebar_background"));
 			if (oldChoose != c) {
 				if (c >= 0 && c < b.length) {
 					if (listener != null) {
